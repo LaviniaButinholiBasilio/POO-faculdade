@@ -1,84 +1,4 @@
-class Aluno:
-    def __init__(self, nome):
-        self.nome = nome
-
-class Professor:
-    def __init__(self, nome):
-        self.nome = nome
-
-class Disciplina:
-    def __init__(self, nome):
-        self.nome = nome
-
-class Turma:
-    def __init__(self, nome, professor, disciplina):
-        self.nome = nome
-        self.professor = professor
-        self.disciplina = disciplina
-        self.alunos = []
-    
-    def adicionar_aluno(self, aluno):
-        self.alunos.append(aluno)
-
-    def excluir_aluno(self, aluno):
-        if aluno in self.alunos:
-            self.alunos.remove(aluno)
-
-    def verificar_aluno_na_turma(self, aluno):
-        return aluno in self.alunos
-    
-    def obter_nomes_alunos(self):
-        return [aluno.nome for aluno in self.alunos]
-    
-    def obter_nome_professor(self):
-        return self.professor.nome
-
-class Curso:
-    def __init__(self, nome):
-        self.nome = nome
-        self.turmas = []
-    
-    def adicionar_turma(self, turma):
-        self.turmas.append(turma)
-
-    def excluir_turma(self, turma):
-        if turma in self.turmas:
-            self.turmas.remove(turma)
-
-    def obter_nomes_alunos(self):
-        alunos = set()
-        for turma in self.turmas:
-            for aluno in turma.alunos:
-                alunos.add(aluno.nome)
-        return list(alunos)
-    
-    def obter_nomes_professores(self):
-        professores = set()
-        for turma in self.turmas:
-            professores.add(turma.professor.nome)
-        return list(professores)
-    
-    def obter_disciplinas(self):
-        disciplinas = set()
-        for turma in self.turmas:
-            disciplinas.add(turma.disciplina.nome)
-        return list(disciplinas)
-
-    def verificar_aluno_no_curso(self, aluno):
-        for turma in self.turmas:
-            if turma.verificar_aluno_na_turma(aluno):
-                return True
-        return False
-    
-    def verificar_turma_no_curso(self, turma):
-        return turma in self.turmas
-    
-    def excluir_aluno_do_curso(self, aluno):
-        for turma in self.turmas:
-            if aluno in turma.alunos:
-                turma.excluir_aluno(aluno)
-
-# Exemplo de uso
+Grupo 7
 
 # Criando alunos
 aluno1 = Aluno("João")
@@ -109,44 +29,93 @@ curso = Curso("Engenharia")
 curso.adicionar_turma(turma1)
 curso.adicionar_turma(turma2)
 
+# Consultando dados do curso
+print("Alunos no curso:", curso.obter_nomes_alunos())
+print("Professores no curso:", curso.obter_nomes_professores())
+print("Disciplinas no curso:", curso.obter_disciplinas())
 
 
-# 1) Nome do professor de uma turma
-print(turma1.obter_nome_professor())  # Output: Dr. Pedro
+# Código das classes
+class Aluno:
+    def __init__(self, nome):
+        self.nome = nome
 
-# 2) Nomes de todos os alunos de uma turma
-print(turma1.obter_nomes_alunos())  # Output: ['João', 'Maria']
 
-# 3) Nomes dos professores que lecionam em alguma turma de um curso
-print(curso.obter_nomes_professores())  # Output: ['Dr. Pedro', 'Dra. Ana']
+class Professor:
+    def __init__(self, nome):
+        self.nome = nome
 
-# 4) Nomes dos alunos que estão em alguma turma de um curso
-print(curso.obter_nomes_alunos())  # Output: ['João', 'Maria', 'Carlos']
 
-# 5) Nomes dos alunos registrados em um curso
-print(curso.obter_nomes_alunos())  # Output: ['João', 'Maria', 'Carlos']
+class Disciplina:
+    def __init__(self, nome):
+        self.nome = nome
 
-# 6) Disciplinas que estão em alguma turma de um curso
-print(curso.obter_disciplinas())  # Output: ['Matemática', 'Física']
 
-# 7) Verificar se um aluno está numa turma
-print(turma1.verificar_aluno_na_turma(aluno1))  # Output: True
+class Turma:
+    def __init__(self, nome, professor, disciplina):
+        self.nome = nome
+        self.professor = professor
+        self.disciplina = disciplina
+        self.alunos = []
 
-# 8) Verificar se um aluno está em um curso
-print(curso.verificar_aluno_no_curso(aluno1))  # Output: True
+    def adicionar_aluno(self, aluno):
+        self.alunos.append(aluno)
 
-# 9) Verificar se uma turma está em um curso
-print(curso.verificar_turma_no_curso(turma1))  # Output: True
+    def excluir_aluno(self, aluno):
+        if aluno in self.alunos:
+            self.alunos.remove(aluno)
 
-# 10) Excluir um aluno de uma turma
-turma1.excluir_aluno(aluno1)
-print(turma1.obter_nomes_alunos())  # Output: ['Maria']
+    def verificar_aluno_na_turma(self, aluno):
+        return aluno in self.alunos
 
-# 11) Excluir uma turma de um curso
-curso.excluir_turma(turma2)
-print(curso.obter_disciplinas())  # Output: ['Matemática']
+    def obter_nomes_alunos(self):
+        return [aluno.nome for aluno in self.alunos]
 
-# 12) Excluir um aluno de um curso
-curso.excluir_aluno_do_curso(aluno2)
-print(curso.obter_nomes_alunos())  # Output: ['Carlos']
+    def obter_nome_professor(self):
+        return self.professor.nome
 
+
+class Curso:
+    def __init__(self, nome):
+        self.nome = nome
+        self.turmas = []
+
+    def adicionar_turma(self, turma):
+        self.turmas.append(turma)
+
+    def excluir_turma(self, turma):
+        if turma in self.turmas:
+            self.turmas.remove(turma)
+
+    def obter_nomes_alunos(self):
+        alunos = set()
+        for turma in self.turmas:
+            for aluno in turma.alunos:
+                alunos.add(aluno.nome)
+        return list(alunos)
+
+    def obter_nomes_professores(self):
+        professores = set()
+        for turma in self.turmas:
+            professores.add(turma.professor.nome)
+        return list(professores)
+
+    def obter_disciplinas(self):
+        disciplinas = set()
+        for turma in self.turmas:
+            disciplinas.add(turma.disciplina.nome)
+        return list(disciplinas)
+
+    def verificar_aluno_no_curso(self, aluno):
+        for turma in self.turmas:
+            if turma.verificar_aluno_na_turma(aluno):
+                return True
+        return False
+
+    def verificar_turma_no_curso(self, turma):
+        return turma in self.turmas
+
+    def excluir_aluno_do_curso(self, aluno):
+        for turma in self.turmas:
+            if aluno in turma.alunos:A
+                turma.excluir_aluno(aluno)

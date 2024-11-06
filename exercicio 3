@@ -1,3 +1,5 @@
+Grupo 7
+
 class Pessoa:
     def __init__(self, nome, estado_naturalidade):
         self.nome = nome

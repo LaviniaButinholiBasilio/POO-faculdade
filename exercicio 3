@@ -3,20 +3,23 @@ class Pessoa:
         self.nome = nome
         self.estado_naturalidade = estado_naturalidade
 
+
 class Escolaridade:
     def __init__(self, nivel):
         self.nivel = nivel
+
 
 class Aluno(Pessoa):
     def __init__(self, nome, estado_naturalidade, curso):
         super().__init__(nome, estado_naturalidade)
         self.curso = curso
 
-    def obter_estado_naturalidade_aluno(aluno):
-        return aluno.estado_naturalidade
+    def obter_estado_naturalidade(self):
+        return self.estado_naturalidade
 
-    def obter_coordenador_curso_aluno(aluno):
-        return aluno.curso.coordenador
+    def obter_coordenador_curso(self):
+        return self.curso.coordenador
+
 
 class Professor(Pessoa):
     def __init__(self, nome, estado_naturalidade, escolaridade, tipo_ensino, diretor=None, coordenador=None):
@@ -26,25 +29,26 @@ class Professor(Pessoa):
         self.diretor = diretor
         self.coordenador = coordenador
 
-    def obter_escolaridade_professor(professor):
-        return professor.escolaridade.nivel
+    def obter_escolaridade(self):
+        return self.escolaridade.nivel
 
-    def obter_estado_nascimento_professor(professor):
-        return professor.estado_naturalidade
+    def obter_estado_nascimento(self):
+        return self.estado_naturalidade
 
-    def obter_tipo_ensino_professor(professor):
-        return professor.tipo_ensino.tipo
+    def obter_tipo_ensino(self):
+        return self.tipo_ensino.tipo
 
-    def obter_diretor_professor(professor):
-        return professor.diretor
+    def obter_diretor(self):
+        return self.diretor
 
-    def obter_coordenador_professor(professor):
-        return professor.coordenador
+    def obter_coordenador(self):
+        return self.coordenador
 
 
 class TipoEnsino:
     def __init__(self, tipo):
         self.tipo = tipo
+
 
 class Curso:
     def __init__(self, nome, coordenador, escola):
@@ -52,8 +56,9 @@ class Curso:
         self.coordenador = coordenador
         self.escola = escola
 
-    def obter_escolaridade_coordenador(curso):
-        return curso.coordenador.escolaridade.nivel
+    def obter_escolaridade_coordenador(self):
+        return self.coordenador.escolaridade.nivel
+
 
 class Escola:
     def __init__(self, nome, cidade, diretor):
@@ -61,17 +66,11 @@ class Escola:
         self.cidade = cidade
         self.diretor = diretor
 
-    def obter_escolaridade_diretor(escola):
-        return escola.diretor.escolaridade.nivel
+    def obter_escolaridade_diretor(self):
+        return self.diretor.escolaridade.nivel
+
 
 class Cidade:
     def __init__(self, nome, estado):
         self.nome = nome
         self.estado = estado
-
-
-
-
-
-
-

@@ -1,0 +1,77 @@
+class Pessoa:
+    def __init__(self, nome, estado_naturalidade):
+        self.nome = nome
+        self.estado_naturalidade = estado_naturalidade
+
+class Escolaridade:
+    def __init__(self, nivel):
+        self.nivel = nivel
+
+class Aluno(Pessoa):
+    def __init__(self, nome, estado_naturalidade, curso):
+        super().__init__(nome, estado_naturalidade)
+        self.curso = curso
+
+    def obter_estado_naturalidade_aluno(aluno):
+        return aluno.estado_naturalidade
+
+    def obter_coordenador_curso_aluno(aluno):
+        return aluno.curso.coordenador
+
+class Professor(Pessoa):
+    def __init__(self, nome, estado_naturalidade, escolaridade, tipo_ensino, diretor=None, coordenador=None):
+        super().__init__(nome, estado_naturalidade)
+        self.escolaridade = escolaridade
+        self.tipo_ensino = tipo_ensino
+        self.diretor = diretor
+        self.coordenador = coordenador
+
+    def obter_escolaridade_professor(professor):
+        return professor.escolaridade.nivel
+
+    def obter_estado_nascimento_professor(professor):
+        return professor.estado_naturalidade
+
+    def obter_tipo_ensino_professor(professor):
+        return professor.tipo_ensino.tipo
+
+    def obter_diretor_professor(professor):
+        return professor.diretor
+
+    def obter_coordenador_professor(professor):
+        return professor.coordenador
+
+
+class TipoEnsino:
+    def __init__(self, tipo):
+        self.tipo = tipo
+
+class Curso:
+    def __init__(self, nome, coordenador, escola):
+        self.nome = nome
+        self.coordenador = coordenador
+        self.escola = escola
+
+    def obter_escolaridade_coordenador(curso):
+        return curso.coordenador.escolaridade.nivel
+
+class Escola:
+    def __init__(self, nome, cidade, diretor):
+        self.nome = nome
+        self.cidade = cidade
+        self.diretor = diretor
+
+    def obter_escolaridade_diretor(escola):
+        return escola.diretor.escolaridade.nivel
+
+class Cidade:
+    def __init__(self, nome, estado):
+        self.nome = nome
+        self.estado = estado
+
+
+
+
+
+
+

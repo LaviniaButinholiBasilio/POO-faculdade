@@ -1,0 +1,57 @@
+Grupo 7
+
+class Funcionario:
+    def _init_(self, nome, salario_bruto, total_acrescimos, total_descontos):
+        self._nome = nome
+        self._salario_bruto = salario_bruto
+        self._total_acrescimos = total_acrescimos
+        self._total_descontos = total_descontos
+
+    # Getters
+    def get_nome(self):
+        return self._nome
+
+    def get_salario_bruto(self):
+        return self._salario_bruto
+
+    def get_total_acrescimos(self):
+        return self._total_acrescimos
+
+    def get_total_descontos(self):
+        return self._total_descontos
+
+    # Setters
+    def set_nome(self, nome):
+        self._nome = nome
+
+    def set_salario_bruto(self, salario_bruto):
+        self._salario_bruto = salario_bruto
+
+    def set_total_acrescimos(self, total_acrescimos):
+        self._total_acrescimos = total_acrescimos
+
+    def set_total_descontos(self, total_descontos):
+        self._total_descontos = total_descontos
+
+    # Método para calcular o salário líquido
+    def calcular_salario_liquido(self):
+        return self._salario_bruto + self._total_acrescimos - self._total_descontos
+
+
+# Testando a classe Funcionario
+if _name_ == "_main_":
+    # Criando um objeto do tipo Funcionario
+    funcionario = Funcionario("João", 5000, 500, 300)
+
+    # Exibindo dados do funcionário
+    print("Nome:", funcionario.get_nome())
+    print("Salário Bruto:", funcionario.get_salario_bruto())
+    print("Total de Acréscimos:", funcionario.get_total_acrescimos())
+    print("Total de Descontos:", funcionario.get_total_descontos())
+    print("Salário Líquido:", funcionario.calcular_salario_liquido())
+
+    # Alterando o salário bruto
+    funcionario.set_salario_bruto(5500)
+    print("\nApós alteração do salário bruto:")
+    print("Salário Bruto:", funcionario.get_salario_bruto())
+    print("Salário Líquido:", funcionario.calcular_salario_liquido())

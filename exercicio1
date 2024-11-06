@@ -109,7 +109,7 @@ curso = Curso("Engenharia")
 curso.adicionar_turma(turma1)
 curso.adicionar_turma(turma2)
 
-# Funções solicitadas
+
 
 # 1) Nome do professor de uma turma
 print(turma1.obter_nome_professor())  # Output: Dr. Pedro

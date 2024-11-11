@@ -1,0 +1,65 @@
+# Dados simulados para usuários, livros e empréstimos
+usuarios = {
+    "admin": {"senha": "1234", "nome": "Administrador"},
+    "usuario1": {"senha": "abcd", "nome": "Maria"},
+}
+
+livros = [
+    {"id": 1, "titulo": "O Pequeno Príncipe", "autor": "Antoine de Saint-Exupéry", "disponivel": True},
+    {"id": 2, "titulo": "Dom Quixote", "autor": "Miguel de Cervantes", "disponivel": False},
+    {"id": 3, "titulo": "1984", "autor": "George Orwell", "disponivel": True},
+]
+
+emprestimos = [
+    {"id_usuario": "usuario1", "id_livro": 2, "data_emprestimo": "2024-11-01"},
+]
+
+def validar_usuario(username, senha):
+    if username in usuarios and usuarios[username]["senha"] == senha:
+        print(f"Bem-vindo(a), {usuarios[username]['nome']}!")
+        return True
+    else:
+        print("Usuário ou senha inválidos!")
+        return False
+
+def listar_livros():
+    print("Lista de Livros:")
+    for livro in livros:
+        status = "Disponível" if livro["disponivel"] else "Emprestado"
+        print(f"ID: {livro['id']}, Título: {livro['titulo']}, Autor: {livro['autor']}, Status: {status}")
+
+def listar_emprestimos():
+    print("Lista de Empréstimos:")
+    for emprestimo in emprestimos:
+        usuario = usuarios[emprestimo["id_usuario"]]["nome"]
+        livro = next((l for l in livros if l["id"] == emprestimo["id_livro"]), None)
+        if livro:
+            print(f"Usuário: {usuario}, Livro: {livro['titulo']}, Data de Empréstimo: {emprestimo['data_emprestimo']}")
+
+def menu():
+    print("Sistema de Gestão de Biblioteca")
+    username = input("Digite o nome de usuário: ")
+    senha = input("Digite a senha: ")
+    
+    if not validar_usuario(username, senha):
+        return
+
+    while True:
+        print("\nEscolha uma opção:")
+        print("1. Listar Livros")
+        print("2. Listar Empréstimos")
+        print("3. Sair")
+        
+        opcao = input("Opção: ")
+        
+        if opcao == "1":
+            listar_livros()
+        elif opcao == "2":
+            listar_emprestimos()
+        elif opcao == "3":
+            print("Saindo do sistema.")
+            break
+        else:
+            print("Opção inválida, tente novamente.")
+
+menu()

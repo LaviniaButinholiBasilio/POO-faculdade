@@ -1,65 +1,124 @@
-# Dados simulados para usuários, livros e empréstimos
-usuarios = {
-    "admin": {"senha": "1234", "nome": "Administrador"},
-    "usuario1": {"senha": "abcd", "nome": "Maria"},
-}
+import os
+from datetime import datetime
 
-livros = [
-    {"id": 1, "titulo": "O Pequeno Príncipe", "autor": "Antoine de Saint-Exupéry", "disponivel": True},
-    {"id": 2, "titulo": "Dom Quixote", "autor": "Miguel de Cervantes", "disponivel": False},
-    {"id": 3, "titulo": "1984", "autor": "George Orwell", "disponivel": True},
-]
 
-emprestimos = [
-    {"id_usuario": "usuario1", "id_livro": 2, "data_emprestimo": "2024-11-01"},
-]
+class Biblioteca:
+    def __init__(self):
+        self.usuarios_file = "usuarios.txt"
+        self.livros_file = "livros.txt"
+        self.emprestimos_file = "emprestimos.txt"
+        self.usuario_logado = None
 
-def validar_usuario(username, senha):
-    if username in usuarios and usuarios[username]["senha"] == senha:
-        print(f"Bem-vindo(a), {usuarios[username]['nome']}!")
-        return True
-    else:
-        print("Usuário ou senha inválidos!")
+    def carregar_usuarios(self):
+        if not os.path.exists(self.usuarios_file):
+            return []
+
+        with open(self.usuarios_file, "r") as f:
+            usuarios = [line.strip().split(",") for line in f.readlines()]
+        return usuarios
+
+    def carregar_livros(self):
+        if not os.path.exists(self.livros_file):
+            return []
+
+        with open(self.livros_file, "r") as f:
+            livros = [line.strip().split(",") for line in f.readlines()]
+        return livros
+
+    def carregar_emprestimos(self):
+        if not os.path.exists(self.emprestimos_file):
+            return []
+
+        with open(self.emprestimos_file, "r") as f:
+            emprestimos = [line.strip().split(",") for line in f.readlines()]
+        return emprestimos
+
+    def validar_usuario(self, login, senha):
+        usuarios = self.carregar_usuarios()
+        for usuario in usuarios:
+            codigo, nome, tipo, user_login, user_senha = usuario
+            if user_login == login and user_senha == senha:
+                self.usuario_logado = {"codigo": codigo, "nome": nome, "tipo": tipo}
+                return True
         return False
 
-def listar_livros():
-    print("Lista de Livros:")
-    for livro in livros:
-        status = "Disponível" if livro["disponivel"] else "Emprestado"
-        print(f"ID: {livro['id']}, Título: {livro['titulo']}, Autor: {livro['autor']}, Status: {status}")
+    def menu_principal(self):
+        while True:
+            print("\n" + "=" * 40)
+            print(f"Bem-vindo ao sistema da CodeLibrary Systems")
+            print(f"Usuário logado: {self.usuario_logado['nome']}")
+            print("=" * 40)
+            print("1 – Visualizar Empréstimos")
+            print("2 – Visualizar Livros")
+            print("3 – Sobre")
+            print("4 – Sair")
+            opcao = input("Escolha uma opção: ")
 
-def listar_emprestimos():
-    print("Lista de Empréstimos:")
-    for emprestimo in emprestimos:
-        usuario = usuarios[emprestimo["id_usuario"]]["nome"]
-        livro = next((l for l in livros if l["id"] == emprestimo["id_livro"]), None)
-        if livro:
-            print(f"Usuário: {usuario}, Livro: {livro['titulo']}, Data de Empréstimo: {emprestimo['data_emprestimo']}")
+            if opcao == "1":
+                self.visualizar_emprestimos()
+            elif opcao == "2":
+                self.visualizar_livros()
+            elif opcao == "3":
+                self.sobre()
+            elif opcao == "4":
+                print("Saindo do sistema...")
+                break
+            else:
+                print("Opção inválida. Tente novamente.")
 
-def menu():
-    print("Sistema de Gestão de Biblioteca")
-    username = input("Digite o nome de usuário: ")
-    senha = input("Digite a senha: ")
-    
-    if not validar_usuario(username, senha):
-        return
+    def visualizar_emprestimos(self):
+        emprestimos = self.carregar_emprestimos()
+        print("\n" + "=" * 40)
+        print("Seus Empréstimos")
+        print("=" * 40)
+        for emprestimo in emprestimos:
+            codigo, codigo_cliente, codigo_livro, data_emprestimo = emprestimo
+            if codigo_cliente == self.usuario_logado["codigo"]:
+                print(f"Código do Empréstimo: {codigo}")
+                print(f"Código do Livro: {codigo_livro}")
+                print(f"Data do Empréstimo: {data_emprestimo}")
+                print("-" * 40)
+        input("Pressione Enter para voltar ao menu.")
 
-    while True:
-        print("\nEscolha uma opção:")
-        print("1. Listar Livros")
-        print("2. Listar Empréstimos")
-        print("3. Sair")
-        
-        opcao = input("Opção: ")
-        
-        if opcao == "1":
-            listar_livros()
-        elif opcao == "2":
-            listar_emprestimos()
-        elif opcao == "3":
-            print("Saindo do sistema.")
-            break
-        else:
-            print("Opção inválida, tente novamente.")
+    def visualizar_livros(self):
+        livros = self.carregar_livros()
+        print("\n" + "=" * 40)
+        print("Livros Disponíveis")
+        print("=" * 40)
+        for livro in livros:
+            codigo, titulo, autor = livro
+            print(f"Código: {codigo} | Título: {titulo} | Autor: {autor}")
+        input("Pressione Enter para voltar ao menu.")
 
-menu()
+    def sobre(self):
+        print("\n" + "=" * 40)
+        print("Sobre o Sistema")
+        print("=" * 40)
+        print("Empresa: CodeLibrary Systems")
+        print("História: Empresa fictícia especializada em softwares para bibliotecas.")
+        print("Equipe:")
+        print("- Desenvolvedor: João Silva")
+        print("- Analista de Sistemas: Maria Souza")
+        print("- Testador: Carlos Lima")
+        print("- Gerente de Projeto: Ana Oliveira")
+        input("Pressione Enter para voltar ao menu.")
+
+
+
+def main():
+    sistema = Biblioteca()
+
+    print("=" * 40)
+    print("Bem-vindo ao Sistema de Biblioteca!")
+    print("=" * 40)
+    login = input("Informe seu login: ")
+    senha = input("Informe sua senha: ")
+
+    if sistema.validar_usuario(login, senha):
+        sistema.menu_principal()
+    else:
+        print("Login ou senha inválidos. Tente novamente.")
+
+
+if __name__ == "__main__":
+    main()

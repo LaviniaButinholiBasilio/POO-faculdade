@@ -1,0 +1,53 @@
+Grupo 7 
+
+class Grupo:
+    def __init__(self, nome, sede, presidente):
+        self.nome = nome
+        self.sede = sede
+        self.presidente = presidente
+
+
+class Empresa:
+    def __init__(self, nome, diretor, grupo):
+        self.nome = nome
+        self.diretor = diretor
+        self.grupo = grupo
+
+
+class Funcionario:
+    def __init__(self, nome, escolaridade, empresa, departamento, coordenacao=None):
+        self.nome = nome
+        self.escolaridade = escolaridade
+        self.empresa = empresa
+        self.departamento = departamento
+        self.coordenacao = coordenacao
+
+
+class Departamento:
+    def __init__(self, nome, chefe):
+        self.nome = nome
+        self.chefe = chefe
+
+
+class Filial:
+    def __init__(self, nome, estado, cidade, empresa):
+        self.nome = nome
+        self.estado = estado
+        self.cidade = cidade
+        self.empresa = empresa
+
+
+grupo = Grupo(nome="Grupo A", sede="São Paulo", presidente="Carlos Silva")
+empresa = Empresa(nome="Empresa X", diretor="Ana Costa", grupo=grupo)
+
+departamento = Departamento(nome="TI", chefe="João Pereira")
+filial = Filial(nome="Filial RJ", estado="Rio de Janeiro", cidade="Rio de Janeiro", empresa=empresa)
+
+funcionario = Funcionario(nome="Pedro Lima", escolaridade="Ensino Superior", empresa=empresa, departamento=departamento, coordenacao=filial)
+
+# Respostas às perguntas
+print(f"1. A escolaridade do presidente do grupo é: N/A (não está associada no diagrama).")
+print(f"2. O país de alocação de um funcionário é: Brasil (não especificado no diagrama, mas inferido pela cidade e estado).")
+print(f"3. O estado da filial que um funcionário coordena é: {funcionario.coordenacao.estado}.")
+print(f"4. A escolaridade do chefe de um departamento é: N/A (não está associada no diagrama).")
+print(f"5. O nome do diretor da empresa de uma filial é: {filial.empresa.diretor}.")

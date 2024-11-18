@@ -1,0 +1,75 @@
+Grupo 7
+
+from datetime import date, datetime, timedelta
+
+
+class Dependente:
+    def __init__(self, nome, data_nascimento):
+        self.nome = nome
+        self.data_nascimento = datetime.strptime(data_nascimento, "%d/%m/%Y").date()
+
+    def calcular_idade(self):
+        hoje = date.today()
+        return hoje.year - self.data_nascimento.year - (
+            (hoje.month, hoje.day) < (self.data_nascimento.month, self.data_nascimento.day)
+        )
+
+    def dias_para_aniversario(self):
+        hoje = date.today()
+        proximo_aniversario = self.data_nascimento.replace(year=hoje.year)
+        if proximo_aniversario < hoje:
+            proximo_aniversario = proximo_aniversario.replace(year=hoje.year + 1)
+        return (proximo_aniversario - hoje).days
+
+
+class Funcionario:
+    def __init__(self, nome, cargo, salario_bruto):
+        self.nome = nome
+        self.cargo = cargo
+        self.salario_bruto = salario_bruto
+        self.dependentes = []
+        self.acrescimos = 0
+        self.descontos = 0
+
+    def adicionar_dependente(self, dependente):
+        self.dependentes.append(dependente)
+
+    def calcular_salario_liquido(self, ano, mes):
+        # Acrescenta R$ 100 por dependente menor de 18 anos
+        hoje = date.today()
+        for dependente in self.dependentes:
+            if dependente.calcular_idade() < 18:
+                self.acrescimos += 100
+
+        
+        salario_liquido = self.salario_bruto + self.acrescimos - self.descontos
+        return salario_liquido
+
+    def listar_dependentes(self):
+        for dependente in self.dependentes:
+            idade = dependente.calcular_idade()
+            dias_para_aniversario = dependente.dias_para_aniversario()
+            print(
+                f"Nome: {dependente.nome}, Data de Nascimento: {dependente.data_nascimento}, "
+                f"Idade: {idade} anos, Dias para próximo aniversário: {dias_para_aniversario}"
+            )
+
+
+
+if __name__ == "__main__":
+    # Criando funcionário
+    funcionario = Funcionario("João Silva", "Desenvolvedor", 5000)
+
+    
+    dependente1 = Dependente("Maria", "15/06/2010")
+    dependente2 = Dependente("Pedro", "20/11/2005")
+    funcionario.adicionar_dependente(dependente1)
+    funcionario.adicionar_dependente(dependente2)
+
+ 
+    print("Dependentes do funcionário:")
+    funcionario.listar_dependentes()
+
+ 
+    salario_liquido = funcionario.calcular_salario_liquido(2024, 11)
+    print(f"\nSalário líquido de {funcionario.nome}: R$ {salario_liquido:.2f}")

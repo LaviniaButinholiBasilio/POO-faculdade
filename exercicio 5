@@ -1,0 +1,109 @@
+class Pessoa:
+    def __init__(self, nome):
+        self.nome = nome
+
+
+class Cliente(Pessoa):
+    def __init__(self, nome, cpf):
+        super().__init__(nome)
+        self.cpf = cpf
+
+
+class Fornecedor(Pessoa):
+    def __init__(self, nome, cnpj):
+        super().__init__(nome)
+        self.cnpj = cnpj
+
+
+class Transacao:
+    def __init__(self, data_transacao, produto, qtde):
+        self.data_transacao = data_transacao
+        self.produto = produto
+        self.qtde = qtde
+
+
+class Compra(Transacao):
+    def __init__(self, data_compra, produto, fornecedor, qtde_compra, preco_unit):
+        super().__init__(data_compra, produto, qtde_compra)
+        self.fornecedor = fornecedor
+        self.preco_unit = preco_unit
+
+    def comprar(self, produto, qtde_compra):
+        if produto.verificar_estoque_excedente(qtde_compra):
+            print("Erro: Estoque excedente.")
+            return False
+        produto.creditar_estoque(qtde_compra)
+        return True
+
+
+class Venda(Transacao):
+    def __init__(self, data_venda, cliente, produto, qtde_vendida):
+        super().__init__(data_venda, produto, qtde_vendida)
+        self.cliente = cliente
+
+    def vender(self, produto, qtde_vendida):
+        if produto.verificar_estoque_insuficiente(qtde_vendida):
+            print("Erro: Estoque insuficiente.")
+            return False
+        produto.debitar_estoque(qtde_vendida)
+        valor = produto.calcular_valor_venda(qtde_vendida)
+        print(f"Valor venda = {valor}")
+        if produto.verificar_estoque_baixo():
+            print("Estoque baixo")
+        return True
+
+
+class Produto:
+    def __init__(self, nome, qtde_estoque, preco_unit, estoque_minimo, estoque_maximo):
+        self.nome = nome
+        self.qtde_estoque = qtde_estoque
+        self.preco_unit = preco_unit
+        self.estoque_minimo = estoque_minimo
+        self.estoque_maximo = estoque_maximo
+        self.historico = []
+
+    def debitar_estoque(self, quantidade):
+        self.qtde_estoque -= quantidade
+
+    def creditar_estoque(self, quantidade):
+        self.qtde_estoque += quantidade
+
+    def verificar_estoque_baixo(self):
+        return self.qtde_estoque < self.estoque_minimo
+
+    def verificar_estoque_insuficiente(self, quantidade):
+        return quantidade > self.qtde_estoque
+
+    def verificar_estoque_excedente(self, quantidade):
+        return (self.qtde_estoque + quantidade) > self.estoque_maximo
+
+    def calcular_valor_venda(self, quantidade):
+        return quantidade * self.preco_unit
+
+    def vender(self, dataVenda, cliente, qtdeVendida):
+        venda = Venda(dataVenda, cliente, self, qtdeVendida)
+        if venda.vender(self, qtdeVendida):
+            self.registrar_Historico(f"Venda do produto {self.nome}")
+
+    def comprar(self, dataCompra, fornecedor, qtdeCompra, precoUnit):
+        compra = Compra(dataCompra, self, fornecedor, qtdeCompra, precoUnit)
+        if compra.comprar(self, qtdeCompra):
+            self.registrar_Historico(f"Compra do produto {self.nome}")
+
+    def registrar_Historico(self, transacao):
+        self.historico.append(transacao)
+
+    def exibir_historico(self):
+        for registro in self.historico:
+            print(registro)
+
+
+# Exemplo de uso
+cliente1 = Cliente("Bruno", "001")
+produto1 = Produto("Panetone", 100, 14.9, 10, 200)
+produto1.vender("26/07/2021", cliente1, 100)
+
+fornecedor1 = Fornecedor("Elias", "002")
+produto1.comprar("26/07/2021", fornecedor1, 16, 1.1)
+
+produto1.exibir_historico()

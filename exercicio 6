@@ -1,0 +1,63 @@
+Grupo 7
+
+class Pessoa:
+    def _init_(self, sexo: str, peso: float, altura: float):
+        self.sexo = sexo
+        self.peso = peso
+        self.altura = altura
+
+    # Métodos get/set
+    def get_sexo(self):
+        return self.sexo
+
+    def set_sexo(self, sexo: str):
+        self.sexo = sexo
+
+    def get_peso(self):
+        return self.peso
+
+    def set_peso(self, peso: float):
+        self.peso = peso
+
+    def get_altura(self):
+        return self.altura
+
+    def set_altura(self, altura: float):
+        self.altura = altura
+
+    # Método para calcular o IMC
+    def calcular_imc(self):
+        return self.peso / (self.altura ** 2)
+
+    # Método para determinar a condição
+    def determinar_condicao(self):
+        imc = self.calcular_imc()
+        if self.sexo.lower() == "feminino":
+            if imc < 19.1:
+                return "abaixo do peso"
+            elif 19.1 <= imc < 25.8:
+                return "no peso normal"
+            elif 25.8 <= imc < 27.3:
+                return "marginalmente acima do peso"
+            elif 27.3 <= imc < 32.3:
+                return "acima do peso ideal"
+            else:
+                return "obeso"
+        elif self.sexo.lower() == "masculino":
+            if imc < 20.7:
+                return "abaixo do peso"
+            elif 20.7 <= imc < 26.4:
+                return "no peso normal"
+            elif 26.4 <= imc < 27.8:
+                return "marginalmente acima do peso"
+            elif 27.8 <= imc < 31.1:
+                return "acima do peso ideal"
+            else:
+                return "obeso"
+        else:
+            return "Sexo inválido"
+
+# Teste com exemplo
+pessoa = Pessoa("feminino", 70, 1.65)
+print(f"IMC: {pessoa.calcular_imc():.2f}")
+print(f"Condição: {pessoa.determinar_condicao()}")

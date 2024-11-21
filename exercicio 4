@@ -1,0 +1,77 @@
+Grupo 7
+
+class Cliente:
+    def _init_(self, nome):
+        self.nome = nome
+
+
+class Veiculo:
+    def _init_(self, placa, valor):
+        self.placa = placa
+        self.valor = valor
+        self.alugado = False
+        self.historico = []
+
+    def alugar(self, cliente, dias):
+        if self.alugado:
+            return f"O veiculo {self.placa} ja esta alugado."
+
+        self.alugado = True
+        aluguel = self.calcularAluguel(dias)
+        self.historico.append(
+            f"Alugado para {cliente.nome} por {dias} dia(s) ao valor de R$ {aluguel:.2f}"
+        )
+        return f"Veiculo {self.placa} alugado para {cliente.nome} por R$ {aluguel:.2f}"
+
+    def devolver(self):
+        if not self.alugado:
+            return f"O veiculo {self.placa} nao esta alugado."
+
+        self.alugado = False
+        self.historico.append(f"Devolvido.")
+        return f"Veiculo {self.placa} devolvido com sucesso."
+
+    def listarHistorico(self):
+        if not self.historico:
+            return f"Nao ha historico para o veiculo {self.placa}."
+        return f"Historico do veiculo {self.placa}:\n" + "\n".join(self.historico)
+
+
+class Carro(Veiculo):
+    def calcularAluguel(self, dias):
+        return self.valor * dias
+
+
+class Moto(Veiculo):
+    def calcularAluguel(self, dias):
+        aluguel = self.valor * dias
+        if dias > 30:
+            aluguel *= 1.2
+        elif dias >= 10:
+            aluguel *= 1.1
+        return aluguel
+
+
+cliente1 = Cliente("Marco")
+cliente2 = Cliente("Antonio")
+
+carro1 = Carro("ABC123", 100)
+carro2 = Carro("XYZ789", 80)
+moto1 = Moto("DEF456", 50)
+moto2 = Moto("GHI789", 40)
+
+# Alugar veiculos
+print(carro1.alugar(cliente1, 5))
+print(carro2.alugar(cliente2, 15))
+print(moto1.alugar(cliente1, 40))
+print(moto2.alugar(cliente2, 8))
+
+
+print(carro1.alugar(cliente2, 3))
+
+
+print(carro1.devolver())
+print(carro2.devolver())
+
+print(carro1.listarHistorico())
+print(moto1.listarHistorico())

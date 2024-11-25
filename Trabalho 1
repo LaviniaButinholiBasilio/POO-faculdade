@@ -24,6 +24,100 @@ class Produto:
         self.codigo = codigo
         self.descricao = descricao
 
+
+#diagrama 2
+
+from decimal import Decimal
+
+class Pessoa:
+    def _init_(self, id, nome, cpf, data_nascimento, email, endereco, telefone, identidade):
+        self.id = id
+        self.nome = nome
+        self.cpf = cpf
+        self.data_nascimento = data_nascimento
+        self.email = email
+        self.endereco = endereco
+        self.telefone = telefone
+        self.identidade = identidade
+
+class Aluno(Pessoa):
+    def _init_(self, id, nome, cpf, data_nascimento, email, endereco, telefone, identidade, matricula, ano_inicio, semestre_inicio):
+        super()._init_(id, nome, cpf, data_nascimento, email, endereco, telefone, identidade)
+        self.matricula = matricula
+        self.ano_inicio = ano_inicio
+        self.semestre_inicio = semestre_inicio
+
+class Professor(Pessoa):
+    def _init_(self, id, nome, cpf, data_nascimento, email, endereco, telefone, identidade, matricula, titulacao_maxima):
+        super()._init_(id, nome, cpf, data_nascimento, email, endereco, telefone, identidade)
+        self.matricula = matricula
+        self.titulacao_maxima = titulacao_maxima
+
+class Diario:
+    def _init_(self, v1, v2, v5, vt, faltas):
+        self.v1 = Decimal(v1)
+        self.v2 = Decimal(v2)
+        self.v5 = Decimal(v5)
+        self.vt = Decimal(vt)
+        self.faltas = faltas
+
+class Turma:
+    def _init_(self, id, descricao, ano, semestre):
+        self.id = id
+        self.descricao = descricao
+        self.ano = ano
+        self.semestre = semestre
+        self.diarios = []
+
+    def add_diario(self, diario):
+        self.diarios.append(diario)
+
+class Disciplina:
+    def _init_(self, id, descricao):
+        self.id = id
+        self.descricao = descricao
+
+class Curso:
+    def _init_(self, id, descricao):
+        self.id = id
+        self.descricao = descricao
+        self.disciplinas = []
+
+    def add_disciplina(self, disciplina):
+        self.disciplinas.append(disciplina)
+
+class Instituicao:
+    def _init_(self, id, descricao):
+        self.id = id
+        self.descricao = descricao
+        self.turmas = []
+
+    def add_turma(self, turma):
+        self.turmas.append(turma)
+
+instituicao = Instituicao(1, "Instituição Exemplo")
+curso = Curso(1, "Curso de Ciência da Computação")
+
+disciplina1 = Disciplina(1, "Algoritmos")
+disciplina2 = Disciplina(2, "Estrutura de Dados")
+curso.add_disciplina(disciplina1)
+curso.add_disciplina(disciplina2)
+
+turma = Turma(1, "Turma 2024/1", 2024, 1)
+
+aluno = Aluno(1, "João Silva", "123.456.789-00", "2000-01-01", "joao.silva@email.com", "Rua Exemplo, 123", "11999999999", "12345678", "A20240001", 2024, 1)
+professor = Professor(1, "Prof. Carlos", "987.654.321-00", "1980-05-15", "carlos.professor@email.com", "Rua Exemplo, 456", "11888888888", "87654321", "P20240001", 2)
+
+diario = Diario("8.5", "9.0", "10.0", "9.0", 2)
+turma.add_diario(diario)
+instituicao.add_turma(turma)
+
+print(f"Instituição: {instituicao.descricao}")
+print(f"Curso: {curso.descricao}")
+print(f"Aluno: {aluno.nome}, Matrícula: {aluno.matricula}")
+print(f"Professor: {professor.nome}")
+print(f"Notas: V1 = {diario.v1}, V2 = {diario.v2}, Final = {diario.vt}")
+
 class ItemNota:
     def _init_(self, id, valor_unitario, quantidade):
         self.id = id

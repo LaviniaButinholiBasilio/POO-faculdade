@@ -1,0 +1,62 @@
+Grupo 7
+
+from decimal import Decimal
+from datetime import date
+
+class Empresa:
+    def _init_(self, id, codigo, razao_social, endereco, cnpj):
+        self.id = id
+        self.codigo = codigo
+        self.razao_social = razao_social
+        self.endereco = endereco
+        self.cnpj = cnpj
+
+class Participante:
+    def _init_(self, id, codigo, razao_social, cnpj):
+        self.id = id
+        self.codigo = codigo
+        self.razao_social = razao_social
+        self.cnpj = cnpj
+
+class Produto:
+    def _init_(self, id, codigo, descricao):
+        self.id = id
+        self.codigo = codigo
+        self.descricao = descricao
+
+class ItemNota:
+    def _init_(self, id, valor_unitario, quantidade):
+        self.id = id
+        self.valor_unitario = Decimal(valor_unitario)
+        self.quantidade = Decimal(quantidade)
+
+    def get_total_item(self):
+        return self.valor_unitario * self.quantidade
+
+class Nota:
+    def _init_(self, id, data, numero):
+        self.id = id
+        self.data = data
+        self.numero = numero
+        self.itens = []
+
+    def add_item(self, item):
+        self.itens.append(item)
+
+    def get_valor_total(self):
+        return sum(item.get_total_item() for item in self.itens)
+
+empresa = Empresa(1, 1001, "Empresa Exemplo LTDA", "Rua Exemplo, 123", "00.000.000/0001-00")
+participante = Participante(1, 2001, "Cliente Exemplo", "11.111.111/0001-11")
+
+produto1 = Produto(1, "P001", "Produto 1")
+produto2 = Produto(2, "P002", "Produto 2")
+
+item1 = ItemNota(1, "10.50", "3")
+item2 = ItemNota(2, "20.00", "2")
+
+nota = Nota(1, date.today(), 12345)
+nota.add_item(item1)
+nota.add_item(item2)
+
+print(f"Valor Total da Nota: R$ {nota.get_valor_total():.2f}")
